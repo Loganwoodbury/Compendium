@@ -50,4 +50,13 @@ public interface MonsterDao {
      */
     Monster createMonster(Monster monster);
 
+    /**
+     * Retrieve a Monster from the datatstore who's type is like the given parameter type.
+     * @param type The name of type of monsters to get from the datastore
+     * @return list of Monster objects by the given type.
+     * @throws DaoException if an error occurs.
+     */
+
+    List<Monster> getMonsterByType(String type);
+
 }

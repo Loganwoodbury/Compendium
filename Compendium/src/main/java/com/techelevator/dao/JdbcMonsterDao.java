@@ -2,6 +2,8 @@ package com.techelevator.dao;
 
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.Monster;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -38,6 +40,29 @@ public class JdbcMonsterDao implements MonsterDao{
     }
 
     @Override
+    public List<Monster> getMonsterByType(String type){
+
+        List<Monster> monsterByType = new ArrayList<>();
+        String sqlMonsterByType = "SELECT * FROM monster WHERE type ILIKE ?;";
+
+        try{
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sqlMonsterByType, "%" + type + "%");
+            while(results.next()){
+                monsterByType.add(mapRowToMonster(results));
+            }
+        }catch(BadSqlGrammarException bsg){
+            throw new DaoException("Unable to process request", bsg);
+        }catch(CannotGetJdbcConnectionException connEx){
+            throw new DaoException("Unable to communicate with server", connEx);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }catch(Exception ex){
+            throw new DaoException("Please contact admin", ex);
+        }
+        return monsterByType;
+    }
+
+    @Override
     public Monster getRandomMonster() {
         return null;
     }
@@ -61,7 +86,39 @@ public class JdbcMonsterDao implements MonsterDao{
 
     @Override
     public Monster createMonster(Monster monster) {
-        return null;
+        Monster newMonster = null;
+
+        String newMonsterSql = "INSERT INTO monster(\n" +
+                "\tname, size, type, alignment, armor_class, hit_points, hit_points_dice, speed, fly_speed, swim_speed, climb_speed, base_str, mod_str," +
+                " base_int, mod_int, base_dex, mod_dex, base_cha, mod_cha, base_con, mod_con, base_wis, mod_wis, saving_throw, skills, damage_immunities, " +
+                "damage_vulnerabilities, resistances, condition_immunities, senses, languages, challenge_rating, racial_abilities, actions, legendary_actions, " +
+                "legendary_actions_allowed, description, homebrew)\n" +
+                "\tVALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING *;";
+
+        try{
+            SqlRowSet insertedRow = jdbcTemplate.queryForRowSet(newMonsterSql, monster.getMonsterName(), monster.getSize(), monster.getType(),
+                    monster.getAlignment(), monster.getArmorClass(), monster.getHitPoints(), monster.getHitPointDice(), monster.getSpeed(),
+                    monster.getFlySpeed(), monster.getSwimSpeed(), monster.getClimbSpeed(), monster.getBaseStrength(), monster.getModStrength(),
+                    monster.getBaseIntelligence(), monster.getModIntelligence(), monster.getBaseDexterity(), monster.getModDexterity(), monster.getBaseCharisma(), monster.getModCharisma(),
+                    monster.getBaseConstitution(), monster.getModConstitution(), monster.getBaseWisdom(), monster.getModWisdom(), monster.getSavingThrow(), monster.getSkill(), monster.getDamageImmunity(),
+                    monster.getDamageVulnerability(), monster.getResistance(), monster.getConditionImmunity(), monster.getSense(), monster.getLanguages(), monster.getChallengeRating(),
+                    monster.getRacialAbility(), monster.getActions(), monster.getLegendaryActions(), monster.getLegendaryActionsAllowed(), monster.getDescription(), monster.isHomebrew());
+
+            if(insertedRow.next()){
+                newMonster = mapRowToMonster(insertedRow);
+            }
+        }catch(BadSqlGrammarException bsg){
+            throw new DaoException("Unable to process request", bsg);
+        }catch(CannotGetJdbcConnectionException connEx){
+            throw new DaoException("Unable to communicate with server", connEx);
+        } catch (DataIntegrityViolationException e) {
+            e.printStackTrace();
+            throw new DaoException("Data integrity violation", e);
+        }catch(Exception ex){
+            throw new DaoException("Please contact admin", ex);
+        }
+
+        return newMonster;
     }
 
     private Monster mapRowToMonster(SqlRowSet rowSet){

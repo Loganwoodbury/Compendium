@@ -355,46 +355,42 @@ public class Monster {
 
     @Override
     public String toString() {
-        return "Monster{" +
-                "monsterId=" + monsterId +
-                ", monsterName='" + monsterName + '\'' +
-                ", size='" + size + '\'' +
-                ", type='" + type + '\'' +
-                ", alignment='" + alignment + '\'' +
-                ", armorClass=" + armorClass +
-                ", hitPoints=" + hitPoints +
-                ", hitPointDice='" + hitPointDice + '\'' +
-                ", speed=" + speed +
-                ", flySpeed=" + flySpeed +
-                ", swimSpeed=" + swimSpeed +
-                ", climbSpeed=" + climbSpeed +
-                ", baseStrength=" + baseStrength +
-                ", modStrength=" + modStrength +
-                ", baseIntelligence=" + baseIntelligence +
-                ", modIntelligence=" + modIntelligence +
-                ", baseDexterity=" + baseDexterity +
-                ", modDexterity=" + modDexterity +
-                ", baseCharisma=" + baseCharisma +
-                ", modCharisma=" + modCharisma +
-                ", baseConstitution=" + baseConstitution +
-                ", modConstitution=" + modConstitution +
-                ", baseWisdom=" + baseWisdom +
-                ", modWisdom=" + modWisdom +
-                ", savingThrow='" + savingThrow + '\'' +
-                ", skill='" + skill + '\'' +
-                ", damageImmunity='" + damageImmunity + '\'' +
-                ", damageVulnerability='" + damageVulnerability + '\'' +
-                ", resistance='" + resistance + '\'' +
-                ", conditionImmunity='" + conditionImmunity + '\'' +
-                ", sense='" + sense + '\'' +
-                ", languages='" + languages + '\'' +
-                ", challengeRating=" + challengeRating +
-                ", racialAbility='" + racialAbility + '\'' +
-                ", actions='" + actions + '\'' +
-                ", legendaryActions='" + legendaryActions + '\'' +
-                ", legendaryActionsAllowed=" + legendaryActionsAllowed +
-                ", description='" + description + '\'' +
-                ", isHomebrew=" + isHomebrew +
-                '}';
+        return "\n---------------------------------------------------------------------------------------\n" +
+                "Id=" + monsterId + "\n" +
+                monsterName + "\n" +
+                size + " " + type + " " + alignment + "\n" +
+                "---------------------------------------------------------------------------------------\n" +
+                "Armor Class: " + armorClass + "\n" +
+                "HitPoints: " + hitPoints + " (" + hitPointDice + ")\n" +
+                "Speed: " + speed + "   FlySpeed: " + flySpeed + "  SwimSpeed:" + swimSpeed + " ClimbSpeed:" + climbSpeed + "\n" +
+                "---------------------------------------------------------------------------------------\n" +
+                "                   Str:" + baseStrength + " (" + modStrength + ") " + "    Int: " + baseIntelligence + " (" + modIntelligence + ") " +
+                "   Dex: " + baseDexterity + " (" + modDexterity + ") \n" + "                   Cha: " + baseCharisma + " (" + modCharisma + ") " +
+                "   Con: " + baseConstitution + " (" + modConstitution + ") " + "   Wis: " + baseWisdom + " (" + modWisdom + ")\n " +
+                "---------------------------------------------------------------------------------------\n" +
+                "Saving Throws: " + savingThrow + "\n" +
+                "Skills: " + skill + "\n" +
+                "Damage Immunity: " + damageImmunity + "\n" +
+                "Damage Vulnerability: " + damageVulnerability + "\n" +
+                "Resistances: " + resistance + "\n" +
+                "Condition Immunity: " + conditionImmunity + "\n" +
+                "Senses: " + sense + "\n" +
+                "Languages: " + languages + "\n" +
+                "Challenge: " + challengeRating + "\n" +
+                "---------------------------------------------------------------------------------------\n" +
+                racialAbility + "\n\n" +
+                "Actions\n" +
+                "---------------------------------------------------------------------------------------\n" +
+                actions + "\n\n" +
+                "Legendary Actions\n" +
+                "---------------------------------------------------------------------------------------\n" +
+                legendaryActions + "\n" +
+                "Legendary Actions Allowed: " + legendaryActionsAllowed + "\n\n" +
+                "---------------------------------------------------------------------------------------\n" +
+                "Description:" + description + "\n\n" +
+                "Homebrew: " + isHomebrew + "\n" +
+                "---------------------------------------------------------------------------------------\n";
     }
+
+
 }
